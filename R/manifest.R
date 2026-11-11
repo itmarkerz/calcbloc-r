@@ -41,7 +41,7 @@ format.cb_manifest <- function(x, ...) {
     sprintf("<CalcBloc data manifest> generated %s, %d countries", chr1(x$generatedAt), length(countries)),
     paste("Countries:", collapse(countries, 30)),
     if (length(pending)) paste("Pending (not yet published):", paste(pending, collapse = ", ")),
-    paste0(cb_credit_text, ", ", chr1(x$licence), ": ", cb_data_url)
+    paste0(cb_credit_text, ", ", chr1(x$licence), ": ", cb_utm(cb_data_url))
   )
 }
 

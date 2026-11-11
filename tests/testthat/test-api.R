@@ -27,7 +27,7 @@ test_that("cb_tax_table(source = 'api') builds the URL, resolves the region and 
   expect_equal(attr(t, "page_url"), "https://calcbloc.com/uk/tax-tables/2026-27/scotland")
   expect_true(all(t$kind %in% c("bands", "values")))
   expect_output(print(t), "United Kingdom, Scotland 2026/27 (GBP)", fixed = TRUE)
-  expect_output(print(t), "https://calcbloc.com/uk/tax-tables/2026-27/scotland", fixed = TRUE)
+  expect_output(print(t), "https://calcbloc.com/uk/tax-tables/2026-27/scotland?utm_source=calcbloc-r&utm_medium=app&utm_campaign=itmarkerz-oss", fixed = TRUE)
 })
 
 test_that("a year given as a start year is resolved before calling the API", {
@@ -157,7 +157,7 @@ test_that("cb_net_salary() sends the parameters and returns a printable result",
   expect_s3_class(pay, "cb_result")
   expect_equal(pay$results$incomeTax, 7486)
   expect_output(print(pay), "netAnnual")
-  expect_output(print(pay), "Data by CalcBloc (calcbloc.com/data): https://calcbloc.com/uk/take-home-pay-calculator",
+  expect_output(print(pay), "Data by CalcBloc (calcbloc.com/data): https://calcbloc.com/uk/take-home-pay-calculator?utm_source=calcbloc-r&utm_medium=app&utm_campaign=itmarkerz-oss",
                 fixed = TRUE)
   df <- as.data.frame(pay)
   expect_equal(nrow(df), 1)

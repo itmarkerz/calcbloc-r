@@ -334,7 +334,7 @@ fmt_num <- function(x, digits = 2) {
 
 #' @export
 format.cb_result <- function(x, ...) {
-  credit <- sprintf("%s: %s", cb_credit_text, chr_or(x$attribution$url, "https://calcbloc.com"))
+  credit <- sprintf("%s: %s", cb_credit_text, cb_utm(chr_or(x$attribution$url, "https://calcbloc.com")))
   if (identical(x$endpoint, "compare")) {
     side <- function(s) sprintf("  %s: gross %s %s, net %s, effective rate %s%%", toupper(chr1(s$country)),
                                 fmt_num(s$gross), chr1(s$currency), fmt_num(s$net), fmt_num(100 * num1(s$effectiveRate), 1))
@@ -352,7 +352,7 @@ format.cb_result <- function(x, ...) {
       if (is.numeric(v)) lines <- c(lines, sprintf("  %-18s %s", nm, if (grepl("Rate$", nm)) paste0(fmt_num(100 * v, 2), "%") else fmt_num(v)))
     }
   }
-  if (!is.null(x$calculatorUrl)) lines <- c(lines, paste("  Calculator:", chr1(x$calculatorUrl)))
+  if (!is.null(x$calculatorUrl)) lines <- c(lines, paste("  Calculator:", cb_utm(chr1(x$calculatorUrl))))
   c(lines, credit)
 }
 

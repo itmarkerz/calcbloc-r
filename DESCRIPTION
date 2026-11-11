@@ -19,7 +19,7 @@ Description: Tidy data frames of income tax brackets, social security
     progressive band schedule to incomes. The bundled data come from
     <https://calcbloc.com/data> and are licensed CC BY 4.0.
 License: MIT + file LICENSE
-URL: https://github.com/itmarkerz/calcbloc-r, https://calcbloc.com/data
+URL: https://github.com/itmarkerz/calcbloc-r, https://calcbloc.com/data?utm_source=calcbloc-r&utm_medium=package&utm_campaign=itmarkerz-oss
 BugReports: https://github.com/itmarkerz/calcbloc-r/issues
 Depends:
     R (>= 3.6.0)

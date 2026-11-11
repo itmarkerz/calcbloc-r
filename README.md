@@ -8,10 +8,11 @@ tax brackets, social security contribution rates, thresholds and
 allowances for 24 countries, with the official source, retrieval date
 and verification status on every row. National tables ship with the
 package and work offline; regional tables and the latest revisions come
-from the [CalcBloc public API](https://calcbloc.com/developers).
+from the [CalcBloc public
+API](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss).
 
 CalcBloc is a product of [itmarkerz
-technologies](https://itmarkerz.co.in).
+technologies](https://itmarkerz.co.in/?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss).
 
 > **Status:** version 0.1.0, in review. Not on CRAN yet.
 
@@ -163,7 +164,7 @@ uk
 #>           dividends           Dividend additional rate 125140     NA 0.3935     NA  rate verified
 #>       ni-thresholds         Lower Earnings Limit (LEL)     NA     NA     NA   6708 money verified
 #> # ... 68 more rows. All columns: as.data.frame(x); sections: cb_sections(x)
-#> Data by CalcBloc (calcbloc.com/data), CC BY 4.0: https://calcbloc.com/uk/tax-tables/2026-27
+#> Data by CalcBloc (calcbloc.com/data), CC BY 4.0: https://calcbloc.com/uk/tax-tables/2026-27?utm_source=calcbloc-r&utm_medium=app&utm_campaign=itmarkerz-oss
 str(as.data.frame(uk)[1, c("section", "label", "rate", "basis", "effective_from", "effective_to",
                             "source_title", "source_url", "retrieved_at", "status")])
 #> 'data.frame':    1 obs. of  10 variables:
@@ -199,12 +200,13 @@ cb_compare("uk", "germany", 60000)
 
 Without a key the API allows 50 requests a day and 5 a minute per IP
 address. A free key from
-[calcbloc.com/developers](https://calcbloc.com/developers) raises this
-to 5,000 a day; put it in `.Renviron` as `CALCBLOC_API_KEY=...` and
-`cb_api_key()` picks it up. The client keeps at least a second between
-requests, caches responses for the session, waits for `Retry-After` when
-the server asks it to (up to `getOption("calcbloc.max_wait", 60)`
-seconds) and reports the remaining quota with `cb_rate_limit()`.
+[calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
+raises this to 5,000 a day; put it in `.Renviron` as
+`CALCBLOC_API_KEY=...` and `cb_api_key()` picks it up. The client keeps
+at least a second between requests, caches responses for the session,
+waits for `Retry-After` when the server asks it to (up to
+`getOption("calcbloc.max_wait", 60)` seconds) and reports the remaining
+quota with `cb_rate_limit()`.
 
 ## Coverage
 
@@ -212,39 +214,40 @@ Bundled national tables, from the package manifest (data of 2026-11-11):
 
 | Country | Code | Tax years | Regional tables (API) | Rows | Last verified |
 |:---|:---|:---|:---|---:|:---|
-| [Australia](https://calcbloc.com/australia/tax-tables/2026-27) | `australia` | 2026-27 | \- | 88 | 2026-11-09 |
-| [Austria](https://calcbloc.com/austria/tax-tables/2026) | `austria` | 2026 | \- | 95 | 2026-11-10 |
-| [Canada](https://calcbloc.com/canada/tax-tables/2026) | `canada` | 2026 | 13 | 95 | 2026-11-09 |
-| [Czechia](https://calcbloc.com/czechia/tax-tables/2026) | `czechia` | 2026 | \- | 104 | 2026-11-11 |
-| [Denmark](https://calcbloc.com/denmark/tax-tables/2026) | `denmark` | 2026 | 5 | 87 | 2026-11-09 |
-| [Finland](https://calcbloc.com/finland/tax-tables/2026) | `finland` | 2026 | 19 | 124 | 2026-11-11 |
-| [France](https://calcbloc.com/france/tax-tables/2026) | `france` | 2026 | \- | 158 | 2026-11-09 |
-| [Germany](https://calcbloc.com/germany/tax-tables/2026) | `germany` | 2026 | \- | 85 | 2026-11-09 |
-| [India](https://calcbloc.com/india/tax-tables/2026-27) | `india` | 2026-27 | \- | 190 | 2026-11-11 |
-| [Ireland](https://calcbloc.com/ireland/tax-tables/2026) | `ireland` | 2026 | \- | 50 | 2026-11-06 |
-| [Italy](https://calcbloc.com/italy/tax-tables/2026) | `italy` | 2026 | 21 | 101 | 2026-11-09 |
-| [Luxembourg](https://calcbloc.com/luxembourg/tax-tables/2026) | `luxembourg` | 2026 | \- | 126 | 2026-11-11 |
-| [Netherlands](https://calcbloc.com/netherlands/tax-tables/2026) | `netherlands` | 2026 | \- | 61 | 2026-11-09 |
-| [New Zealand](https://calcbloc.com/new-zealand/tax-tables/2026-27) | `new-zealand` | 2026-27 | \- | 55 | 2026-11-09 |
-| [Norway](https://calcbloc.com/norway/tax-tables/2026) | `norway` | 2026 | \- | 98 | 2026-11-11 |
-| [Poland](https://calcbloc.com/poland/tax-tables/2026) | `poland` | 2026 | \- | 93 | 2026-11-10 |
-| [Portugal](https://calcbloc.com/portugal/tax-tables/2026) | `portugal` | 2026 | 2 | 76 | 2026-11-09 |
-| [Singapore](https://calcbloc.com/singapore/tax-tables/2026) | `singapore` | 2026 | \- | 94 | 2026-11-09 |
-| [Spain](https://calcbloc.com/spain/tax-tables/2026) | `spain` | 2026 | 21 | 90 | 2026-11-09 |
-| [Sweden](https://calcbloc.com/sweden/tax-tables/2026) | `sweden` | 2026 | 21 | 140 | 2026-11-10 |
-| [Switzerland](https://calcbloc.com/switzerland/tax-tables/2026) | `switzerland` | 2026 | 26 | 148 | 2026-11-09 |
-| [United Arab Emirates](https://calcbloc.com/uae/tax-tables/2026) | `uae` | 2026 | \- | 56 | 2026-11-09 |
-| [United Kingdom](https://calcbloc.com/uk/tax-tables/2026-27) | `uk` | 2026-27, 2025-26 | 2 | 78 | 2026-11-09 |
-| [United States](https://calcbloc.com/us/tax-tables/2026) | `us` | 2026 | 51 | 70 | 2026-11-09 |
+| [Australia](https://calcbloc.com/australia/tax-tables/2026-27?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `australia` | 2026-27 | \- | 88 | 2026-11-09 |
+| [Austria](https://calcbloc.com/austria/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `austria` | 2026 | \- | 95 | 2026-11-10 |
+| [Canada](https://calcbloc.com/canada/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `canada` | 2026 | 13 | 95 | 2026-11-09 |
+| [Czechia](https://calcbloc.com/czechia/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `czechia` | 2026 | \- | 104 | 2026-11-11 |
+| [Denmark](https://calcbloc.com/denmark/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `denmark` | 2026 | 5 | 87 | 2026-11-09 |
+| [Finland](https://calcbloc.com/finland/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `finland` | 2026 | 19 | 124 | 2026-11-11 |
+| [France](https://calcbloc.com/france/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `france` | 2026 | \- | 158 | 2026-11-09 |
+| [Germany](https://calcbloc.com/germany/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `germany` | 2026 | \- | 85 | 2026-11-09 |
+| [India](https://calcbloc.com/india/tax-tables/2026-27?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `india` | 2026-27 | \- | 190 | 2026-11-11 |
+| [Ireland](https://calcbloc.com/ireland/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `ireland` | 2026 | \- | 50 | 2026-11-06 |
+| [Italy](https://calcbloc.com/italy/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `italy` | 2026 | 21 | 101 | 2026-11-09 |
+| [Luxembourg](https://calcbloc.com/luxembourg/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `luxembourg` | 2026 | \- | 126 | 2026-11-11 |
+| [Netherlands](https://calcbloc.com/netherlands/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `netherlands` | 2026 | \- | 61 | 2026-11-09 |
+| [New Zealand](https://calcbloc.com/new-zealand/tax-tables/2026-27?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `new-zealand` | 2026-27 | \- | 55 | 2026-11-09 |
+| [Norway](https://calcbloc.com/norway/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `norway` | 2026 | \- | 98 | 2026-11-11 |
+| [Poland](https://calcbloc.com/poland/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `poland` | 2026 | \- | 93 | 2026-11-10 |
+| [Portugal](https://calcbloc.com/portugal/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `portugal` | 2026 | 2 | 76 | 2026-11-09 |
+| [Singapore](https://calcbloc.com/singapore/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `singapore` | 2026 | \- | 94 | 2026-11-09 |
+| [Spain](https://calcbloc.com/spain/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `spain` | 2026 | 21 | 90 | 2026-11-09 |
+| [Sweden](https://calcbloc.com/sweden/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `sweden` | 2026 | 21 | 140 | 2026-11-10 |
+| [Switzerland](https://calcbloc.com/switzerland/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `switzerland` | 2026 | 26 | 148 | 2026-11-09 |
+| [United Arab Emirates](https://calcbloc.com/uae/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `uae` | 2026 | \- | 56 | 2026-11-09 |
+| [United Kingdom](https://calcbloc.com/uk/tax-tables/2026-27?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `uk` | 2026-27, 2025-26 | 2 | 78 | 2026-11-09 |
+| [United States](https://calcbloc.com/us/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `us` | 2026 | 51 | 70 | 2026-11-09 |
 
 ## Data, licence and credit
 
 The tax data comes from the CalcBloc open dataset at
-[calcbloc.com/data](https://calcbloc.com/data): every figure is taken
-from the official government publication named next to it
-(`source_url`), with the date it was retrieved and its verification
-status. Tables whose overall status is `unverified` contain figures
-still being checked; filter on `status` if you need verified rows only.
+[calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss):
+every figure is taken from the official government publication named
+next to it (`source_url`), with the date it was retrieved and its
+verification status. Tables whose overall status is `unverified` contain
+figures still being checked; filter on `status` if you need verified
+rows only.
 
 - **Data licence:** CC BY 4.0. Credit “Data by CalcBloc
   (calcbloc.com/data)” wherever you publish the data or results based on
@@ -258,20 +261,24 @@ To cite the package: `citation("calcbloc")`.
 
 ## Links
 
-- Website: [calcbloc.com](https://calcbloc.com)
+- Website:
+  [calcbloc.com](https://calcbloc.com/?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
 - Tax tables and downloads:
-  [calcbloc.com/data](https://calcbloc.com/data)
+  [calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
 - API documentation:
-  [calcbloc.com/developers](https://calcbloc.com/developers)
+  [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
 - Vignette: `vignette("comparing-tax-schedules", package = "calcbloc")`
 
 ## About
 
-[CalcBloc](https://calcbloc.com) is built and maintained by [itmarkerz
-technologies](https://itmarkerz.co.in), a web and mobile app development
-company in Kerala, India. The open data behind this package is at
-[calcbloc.com/data](https://calcbloc.com/data) and the API documentation
-at [calcbloc.com/developers](https://calcbloc.com/developers). The other
-CalcBloc packages (Python, JavaScript, PHP, Google Sheets, the MCP
-server and the dataset itself) are in the [itmarkerz GitHub
+[CalcBloc](https://calcbloc.com/?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
+is built and maintained by [itmarkerz
+technologies](https://itmarkerz.co.in/?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss),
+a web and mobile app development company in Kerala, India. The open data
+behind this package is at
+[calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
+and the API documentation at
+[calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss).
+The other CalcBloc packages (Python, JavaScript, PHP, Google Sheets, the
+MCP server and the dataset itself) are in the [itmarkerz GitHub
 organization](https://github.com/itmarkerz).

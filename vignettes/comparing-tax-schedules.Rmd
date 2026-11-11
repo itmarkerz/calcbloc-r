@@ -14,7 +14,7 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height
 This vignette compares national income tax schedules with the tables that ship
 with calcbloc. Everything below runs offline: no API key and no network.
 
-Data by CalcBloc ([calcbloc.com/data](https://calcbloc.com/data)), CC BY 4.0.
+Data by CalcBloc ([calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-r&utm_medium=docs&utm_campaign=itmarkerz-oss)), CC BY 4.0.
 Every row carries the official source it was taken from (`source_url`), the
 date it was retrieved and its verification status.
 
@@ -185,7 +185,7 @@ autonomous communities, ...) are not bundled, to keep the package small. They
 come from the CalcBloc API. Without a key the API allows 50 requests a day
 and 5 a minute per IP address; the client spaces requests, caches responses
 for the session and waits when the server asks it to. A free key
-(<https://calcbloc.com/developers>) in `CALCBLOC_API_KEY` raises the limit.
+([https://calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=docs&utm_campaign=itmarkerz-oss)) in `CALCBLOC_API_KEY` raises the limit.
 
 ```{r, eval = FALSE}
 provinces <- cb_regions("canada")$code

@@ -18,9 +18,9 @@ brackets, social security contribution rates, thresholds and allowances for
 `r nrow(calcbloc::cb_countries())` countries, with the official source,
 retrieval date and verification status on every row. National tables ship with
 the package and work offline; regional tables and the latest revisions come
-from the [CalcBloc public API](https://calcbloc.com/developers).
+from the [CalcBloc public API](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss).
 
-CalcBloc is a product of [itmarkerz technologies](https://itmarkerz.co.in).
+CalcBloc is a product of [itmarkerz technologies](https://itmarkerz.co.in/?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss).
 
 > **Status:** version 0.1.0, in review. Not on CRAN yet.
 
@@ -134,7 +134,7 @@ cb_compare("uk", "germany", 60000)
 ```
 
 Without a key the API allows 50 requests a day and 5 a minute per IP address.
-A free key from [calcbloc.com/developers](https://calcbloc.com/developers)
+A free key from [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
 raises this to 5,000 a day; put it in `.Renviron` as `CALCBLOC_API_KEY=...` and
 `cb_api_key()` picks it up. The client keeps at least a second between
 requests, caches responses for the session, waits for `Retry-After` when the
@@ -149,7 +149,7 @@ Bundled national tables, from the package manifest
 ```{r, echo = FALSE}
 cs <- cb_countries()
 cov <- data.frame(
-  Country = sprintf("[%s](%s)", cs$name, cs$page_url),
+  Country = sprintf("[%s](%s?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)", cs$name, cs$page_url),
   Code = sprintf("`%s`", cs$country),
   `Tax years` = cs$years,
   `Regional tables (API)` = ifelse(cs$regions > 0, as.character(cs$regions), "-"),
@@ -163,7 +163,7 @@ knitr::kable(cov[order(cs$name), ], row.names = FALSE)
 ## Data, licence and credit
 
 The tax data comes from the CalcBloc open dataset at
-[calcbloc.com/data](https://calcbloc.com/data): every figure is taken from the
+[calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss): every figure is taken from the
 official government publication named next to it (`source_url`), with the date
 it was retrieved and its verification status. Tables whose overall status is
 `unverified` contain figures still being checked; filter on `status` if you
@@ -180,17 +180,17 @@ To cite the package: `citation("calcbloc")`.
 
 ## Links
 
-- Website: [calcbloc.com](https://calcbloc.com)
-- Tax tables and downloads: [calcbloc.com/data](https://calcbloc.com/data)
-- API documentation: [calcbloc.com/developers](https://calcbloc.com/developers)
+- Website: [calcbloc.com](https://calcbloc.com/?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
+- Tax tables and downloads: [calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
+- API documentation: [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
 - Vignette: `vignette("comparing-tax-schedules", package = "calcbloc")`
 
 ## About
 
-[CalcBloc](https://calcbloc.com) is built and maintained by
-[itmarkerz technologies](https://itmarkerz.co.in), a web and mobile app
+[CalcBloc](https://calcbloc.com/?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) is built and maintained by
+[itmarkerz technologies](https://itmarkerz.co.in/?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss), a web and mobile app
 development company in Kerala, India. The open data behind this package is at
-[calcbloc.com/data](https://calcbloc.com/data) and the API documentation at
-[calcbloc.com/developers](https://calcbloc.com/developers). The other CalcBloc
+[calcbloc.com/data](https://calcbloc.com/data?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) and the API documentation at
+[calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss). The other CalcBloc
 packages (Python, JavaScript, PHP, Google Sheets, the MCP server and the dataset
 itself) are in the [itmarkerz GitHub organization](https://github.com/itmarkerz).

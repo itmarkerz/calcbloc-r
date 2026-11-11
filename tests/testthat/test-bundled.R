@@ -91,8 +91,9 @@ test_that("print and format show the table, the credit and the page link", {
   f <- format(uk)
   expect_match(f[1], "United Kingdom 2026/27 (GBP)", fixed = TRUE)
   expect_match(f[length(f)],
-               "Data by CalcBloc (calcbloc.com/data), CC BY 4.0: https://calcbloc.com/uk/tax-tables/2026-27",
+               "Data by CalcBloc (calcbloc.com/data), CC BY 4.0: https://calcbloc.com/uk/tax-tables/2026-27?utm_source=calcbloc-r&utm_medium=app&utm_campaign=itmarkerz-oss",
                fixed = TRUE)
+  expect_equal(attr(uk, "page_url"), "https://calcbloc.com/uk/tax-tables/2026-27")
   expect_output(print(uk), "Data by CalcBloc (calcbloc.com/data)", fixed = TRUE)
   expect_output(print(uk, n = 3), "more rows")
 })
@@ -109,4 +110,15 @@ test_that("cb_sections() summarises sections", {
 test_that("cb_credit() returns the CC BY credit", {
   expect_equal(cb_credit(), "Data by CalcBloc (calcbloc.com/data)")
   expect_match(cb_credit(url = TRUE), "https://calcbloc.com/data", fixed = TRUE)
+})
+
+test_that("printed calcbloc.com links carry the referral tag", {
+  tag <- "utm_source=calcbloc-r&utm_medium=app&utm_campaign=itmarkerz-oss"
+  expect_equal(cb_utm("https://calcbloc.com"), paste0("https://calcbloc.com/?", tag))
+  expect_equal(cb_utm("https://calcbloc.com/data"), paste0("https://calcbloc.com/data?", tag))
+  expect_equal(cb_utm("https://calcbloc.com/a?x=1#s"), paste0("https://calcbloc.com/a?x=1&", tag, "#s"))
+  expect_equal(cb_utm(paste0("https://calcbloc.com/data?", tag)), paste0("https://calcbloc.com/data?", tag))
+  expect_equal(cb_utm("https://example.org/x"), "https://example.org/x")
+  expect_true(is.na(cb_utm(NA_character_)))
+  expect_output(print(cb_manifest()), paste0("https://calcbloc.com/data?", tag), fixed = TRUE)
 })

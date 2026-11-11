@@ -3,6 +3,20 @@ cb_data_url <- "https://calcbloc.com/data"
 
 or_else <- function(x, y) if (is.null(x) || length(x) == 0) y else x
 
+# Referral tag for calcbloc.com links shown by print/format methods, so the site's analytics can tell the visit came
+# from this package. The data (page_url attributes, manifest), the API URLs and cb_credit() stay plain.
+cb_utm <- function(url, medium = "app") {
+  if (length(url) != 1 || is.na(url) || !grepl("^https://(www\\.)?calcbloc\\.com([/?#]|$)", url) ||
+      grepl("[?&]utm_source=", url)) {
+    return(url)
+  }
+  hash <- sub("^[^#]*", "", url)
+  base <- sub("#.*$", "", url)
+  if (!grepl("^https://[^/?]+/", base)) base <- sub("^(https://[^/?]+)", "\\1/", base)
+  paste0(base, if (grepl("?", base, fixed = TRUE)) "&" else "?",
+         "utm_source=calcbloc-r&utm_medium=", medium, "&utm_campaign=itmarkerz-oss", hash)
+}
+
 #' Credit line for CalcBloc data
 #'
 #' Returns the attribution required by the CC BY 4.0 data licence, ready to use

@@ -186,7 +186,7 @@ format.cb_tax_table <- function(x, ...) {
     sprintf("<CalcBloc tax table> %s %s (%s)", place, a("year_label"), a("currency")),
     sprintf("%d rows in %d sections; table status: %s; source: %s", nrow(x), nsec, status, src),
     if (identical(status, "unverified")) "Some figures in this table are still being checked against official sources: see the status column.",
-    sprintf("%s, CC BY 4.0: %s", cb_credit_text, if (is.na(a("page_url"))) cb_data_url else a("page_url"))
+    sprintf("%s, CC BY 4.0: %s", cb_credit_text, cb_utm(if (is.na(a("page_url"))) cb_data_url else a("page_url")))
   )
 }
 
