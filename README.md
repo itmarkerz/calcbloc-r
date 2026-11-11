@@ -10,6 +10,9 @@ and verification status on every row. National tables ship with the
 package and work offline; regional tables and the latest revisions come
 from the [CalcBloc public API](https://calcbloc.com/developers).
 
+CalcBloc is a product of [itmarkerz
+technologies](https://itmarkerz.co.in).
+
 > **Status:** version 0.1.0, in review. Not on CRAN yet.
 
 ## Installation
@@ -261,3 +264,14 @@ To cite the package: `citation("calcbloc")`.
 - API documentation:
   [calcbloc.com/developers](https://calcbloc.com/developers)
 - Vignette: `vignette("comparing-tax-schedules", package = "calcbloc")`
+
+## About
+
+[CalcBloc](https://calcbloc.com) is built and maintained by [itmarkerz
+technologies](https://itmarkerz.co.in), a web and mobile app development
+company in Kerala, India. The open data behind this package is at
+[calcbloc.com/data](https://calcbloc.com/data) and the API documentation
+at [calcbloc.com/developers](https://calcbloc.com/developers). The other
+CalcBloc packages (Python, JavaScript, PHP, Google Sheets, the MCP
+server and the dataset itself) are in the [itmarkerz GitHub
+organization](https://github.com/itmarkerz).
