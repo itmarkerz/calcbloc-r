@@ -4,12 +4,14 @@ cb_user_agent <- function() {
 
 #' CalcBloc API key
 #'
-#' Reads the API key from the `CALCBLOC_API_KEY` environment variable. A key is
-#' optional for the tax-table and country endpoints: without one, the API
-#' allows 50 requests a day and 5 a minute per IP address; a free key
-#' (<https://calcbloc.com/developers>) raises that to 5,000 a day and 60 a
-#' minute. Keep the key out of scripts: put `CALCBLOC_API_KEY=...` in your
-#' `.Renviron` (for example with `usethis::edit_r_environ()`).
+#' Reads the API key from the `CALCBLOC_API_KEY` environment variable; every
+#' API function uses it by default. A key is optional: without one, every
+#' endpoint works for 50 requests a day and 5 a minute per IP address; a free
+#' key (<https://calcbloc.com/developers/keys>) raises that to 5,000 a day and
+#' 60 a minute. When the free allowance without a key is used up, the error
+#' (class `calcbloc_rate_limited`) says so and links to the keys page. Keep the
+#' key out of scripts: put `CALCBLOC_API_KEY=...` in your `.Renviron` (for
+#' example with `usethis::edit_r_environ()`), or pass `api_key =` to a call.
 #'
 #' @return The key as a string, or `NULL` when the variable is unset or empty.
 #' @export
@@ -18,6 +20,24 @@ cb_user_agent <- function() {
 cb_api_key <- function() {
   key <- Sys.getenv("CALCBLOC_API_KEY", unset = "")
   if (nzchar(trimws(key))) trimws(key) else NULL
+}
+
+# Where to get a free API key; linked from the error raised when the free
+# allowance without a key is used up.
+cb_keys_url <- "https://calcbloc.com/developers/keys?utm_source=calcbloc-r&utm_medium=app&utm_campaign=itmarkerz-oss"
+
+# The 429 message without a key: the free allowance is used up; add a free key
+# and how to set it.
+no_key_limit_message <- function(api_message, retry_after) {
+  per_minute <- grepl("minute", api_message, ignore.case = TRUE) && (is.na(retry_after) || retry_after <= 60)
+  used_up <- if (per_minute) {
+    "The free allowance without a key (5 requests a minute, 50 a day) is used up for this minute."
+  } else {
+    "The free allowance of 50 requests a day without a key is used up."
+  }
+  paste0(used_up, " Add your free API key (5,000 requests a day): ", cb_keys_url,
+         " (set CALCBLOC_API_KEY, for example in your .Renviron, or pass api_key =; cb_api_key() shows the key in use).",
+         if (!is.na(retry_after)) sprintf(" Without a key, retry after %d seconds.", retry_after) else "")
 }
 
 # The one place that touches the network, so tests can mock it.
@@ -82,7 +102,9 @@ throttle <- function() {
 #'   \item on HTTP 429 or 503 waits for the `Retry-After` the server sends and
 #'     retries, up to `getOption("calcbloc.max_retries", 2)` times, as long as
 #'     the wait is at most `getOption("calcbloc.max_wait", 60)` seconds;
-#'     otherwise it stops with an error of class `calcbloc_rate_limited`;
+#'     otherwise it stops with an error of class `calcbloc_rate_limited`
+#'     (field `api_key_set`). Without a key its message says the free
+#'     allowance is used up and links to a free API key;
 #'   \item records the `X-RateLimit-*` headers of the last response, which
 #'     [cb_rate_limit()] returns.
 #' }
@@ -156,10 +178,13 @@ cb_api_get <- function(path, query = list(), api_key = cb_api_key(), cache = TRU
     docs <- chr_or(err$docs, "https://calcbloc.com/developers")
     if (res$status == 429) {
       ra <- header_int(hdr, "retry-after")
-      hint <- if (is.null(api_key)) " A free API key raises the limit: https://calcbloc.com/developers (set CALCBLOC_API_KEY)." else ""
-      stop(api_condition(sprintf("CalcBloc API rate limit reached: %s%s%s", msg,
-                                 if (!is.na(ra)) sprintf(" Retry after %d seconds.", ra) else "", hint),
-                         c("calcbloc_rate_limited"), status = res$status, code = code, docs = docs, retry_after = ra))
+      text <- if (is.null(api_key)) {
+        no_key_limit_message(msg, ra)
+      } else {
+        sprintf("CalcBloc API rate limit reached: %s%s", msg, if (!is.na(ra)) sprintf(" Retry after %d seconds.", ra) else "")
+      }
+      stop(api_condition(text, c("calcbloc_rate_limited"), status = res$status, code = code, docs = docs,
+                         retry_after = ra, api_key_set = !is.null(api_key)))
     }
     stop(api_condition(sprintf("CalcBloc API error %d (%s): %s See %s", res$status, code, msg, docs),
                        paste0("calcbloc_", gsub("[^a-z0-9]+", "_", tolower(code))),
@@ -170,7 +195,7 @@ cb_api_get <- function(path, query = list(), api_key = cb_api_key(), cache = TRU
   rem <- cb_env$rate_limit$remaining
   if (!is.na(rem) && rem <= 5) {
     message(sprintf("CalcBloc API: %d requests left in today's quota%s.", rem,
-                    if (is.null(api_key)) " (a free API key raises the limit: https://calcbloc.com/developers)" else ""))
+                    if (is.null(api_key)) paste0(" (add your free API key for 5,000 a day: ", cb_keys_url, ")") else ""))
   }
   if (isTRUE(cache)) {
     if (is.null(cb_env$cache)) cb_env$cache <- list()
@@ -257,8 +282,8 @@ new_cb_result <- function(body) structure(body, class = c("cb_result", "list"))
 #' (`cb_countries(source = "api")` lists them in `endpoints`); for the others
 #' the API returns an `unsupported_country` error pointing to their tax tables.
 #'
-#' The API documents the calculation endpoints as needing a free key; set
-#' `CALCBLOC_API_KEY` (see [cb_api_key()]).
+#' Works without a key for 50 requests a day; set `CALCBLOC_API_KEY` for a
+#' free key's 5,000 a day (see [cb_api_key()]).
 #'
 #' @param country Country code, for example `"uk"` or `"us"`.
 #' @param salary Gross annual salary in the country's currency (one value per

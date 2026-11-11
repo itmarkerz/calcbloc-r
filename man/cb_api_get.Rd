@@ -39,7 +39,9 @@ between requests;
 \item on HTTP 429 or 503 waits for the \code{Retry-After} the server sends and
 retries, up to \code{getOption("calcbloc.max_retries", 2)} times, as long as
 the wait is at most \code{getOption("calcbloc.max_wait", 60)} seconds;
-otherwise it stops with an error of class \code{calcbloc_rate_limited};
+otherwise it stops with an error of class \code{calcbloc_rate_limited}
+(field \code{api_key_set}). Without a key its message says the free
+allowance is used up and links to a free API key;
 \item records the \verb{X-RateLimit-*} headers of the last response, which
 \code{\link[=cb_rate_limit]{cb_rate_limit()}} returns.
 }

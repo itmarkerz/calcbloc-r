@@ -10,12 +10,14 @@ cb_api_key()
 The key as a string, or \code{NULL} when the variable is unset or empty.
 }
 \description{
-Reads the API key from the \code{CALCBLOC_API_KEY} environment variable. A key is
-optional for the tax-table and country endpoints: without one, the API
-allows 50 requests a day and 5 a minute per IP address; a free key
-(\url{https://calcbloc.com/developers}) raises that to 5,000 a day and 60 a
-minute. Keep the key out of scripts: put \code{CALCBLOC_API_KEY=...} in your
-\code{.Renviron} (for example with \code{usethis::edit_r_environ()}).
+Reads the API key from the \code{CALCBLOC_API_KEY} environment variable; every
+API function uses it by default. A key is optional: without one, every
+endpoint works for 50 requests a day and 5 a minute per IP address; a free
+key (\url{https://calcbloc.com/developers/keys}) raises that to 5,000 a day and
+60 a minute. When the free allowance without a key is used up, the error
+(class \code{calcbloc_rate_limited}) says so and links to the keys page. Keep the
+key out of scripts: put \code{CALCBLOC_API_KEY=...} in your \code{.Renviron} (for
+example with \code{usethis::edit_r_environ()}), or pass \verb{api_key =} to a call.
 }
 \examples{
 is.null(cb_api_key())

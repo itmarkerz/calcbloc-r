@@ -16,6 +16,8 @@ First version, for review (not yet on CRAN).
 * API client: `cb_api_get()`, `cb_net_salary()`, `cb_employer_cost()`,
   `cb_compare()`, with `cb_api_key()` reading `CALCBLOC_API_KEY`, request
   spacing, a session cache (`cb_cache_clear()`), `Retry-After` handling and
-  `cb_rate_limit()`.
+  `cb_rate_limit()`. Works without a key (50 requests a day); when that runs
+  out, the `calcbloc_rate_limited` error says so and links to a free API key
+  (5,000 a day).
 * `cb_credit()` returns the CC BY 4.0 credit line; print methods show it.
 * Vignette: "Comparing tax schedules across countries".

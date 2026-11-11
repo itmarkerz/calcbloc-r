@@ -184,8 +184,8 @@ Regional tables (US states, Canadian provinces, Swiss cantons, Spanish
 autonomous communities, ...) are not bundled, to keep the package small. They
 come from the CalcBloc API. Without a key the API allows 50 requests a day
 and 5 a minute per IP address; the client spaces requests, caches responses
-for the session and waits when the server asks it to. A free key
-([https://calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=docs&utm_campaign=itmarkerz-oss)) in `CALCBLOC_API_KEY` raises the limit.
+for the session and waits when the server asks it to. A free API key
+([calcbloc.com/developers/keys](https://calcbloc.com/developers/keys?utm_source=calcbloc-r&utm_medium=docs&utm_campaign=itmarkerz-oss)) in `CALCBLOC_API_KEY` raises the limit to 5,000 a day.
 
 ```{r, eval = FALSE}
 provinces <- cb_regions("canada")$code

@@ -127,19 +127,36 @@ cb_regions("us")                                  # codes, offline
 ca <- cb_tax_table("us", region = "ca", source = "api")
 cb_countries(source = "api")                      # what the API serves today
 
-# Calculation endpoints (about a dozen countries; free key recommended)
+# Calculation endpoints (about a dozen countries; no key needed for 50 a day)
 cb_net_salary("uk", 50000, region = "scotland")
 cb_employer_cost("germany", 60000)
 cb_compare("uk", "germany", 60000)
 ```
 
-Without a key the API allows 50 requests a day and 5 a minute per IP address.
-A free key from [calcbloc.com/developers](https://calcbloc.com/developers?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
-raises this to 5,000 a day; put it in `.Renviron` as `CALCBLOC_API_KEY=...` and
-`cb_api_key()` picks it up. The client keeps at least a second between
-requests, caches responses for the session, waits for `Retry-After` when the
-server asks it to (up to `getOption("calcbloc.max_wait", 60)` seconds) and
-reports the remaining quota with `cb_rate_limit()`.
+The client keeps at least a second between requests, caches responses for the
+session, waits for `Retry-After` when the server asks it to (up to
+`getOption("calcbloc.max_wait", 60)` seconds) and reports the remaining quota
+with `cb_rate_limit()`.
+
+## Free use and API keys
+
+- **Offline tables need no key and no network**: `cb_tax_table()`,
+  `cb_tax_from_bands()` and the other offline functions read the tables bundled
+  in the package.
+- **API calls work without a key** for 50 requests a day and 5 a minute per IP
+  address, on every endpoint.
+- **Add a free API key for 5,000 requests a day** (60 a minute). Get one
+  instantly at
+  [calcbloc.com/developers/keys](https://calcbloc.com/developers/keys?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss)
+  (enter your email address; the key is shown once).
+- **Set it** in the `CALCBLOC_API_KEY` environment variable, for example in
+  `.Renviron` (`usethis::edit_r_environ()`); `cb_api_key()` reads it and every
+  API function uses it by default, or pass `api_key =` to a call. It is sent in
+  the `X-API-Key` header.
+
+When the free allowance without a key is used up, the error (class
+`calcbloc_rate_limited`) says so, links to the keys page and shows how to set
+the key. With a key, the message gives that key's limit.
 
 ## Coverage
 

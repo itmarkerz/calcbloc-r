@@ -112,6 +112,51 @@ test_that("HTTP 429 with a long Retry-After stops with calcbloc_rate_limited", {
   expect_equal(cb_rate_limit()$remaining, 0L)
 })
 
+test_that("HTTP 429 without a key: the free allowance is used up, with the keys link and how to set the key", {
+  local_api()
+  seen <- NULL
+  local_mocked_bindings(cb_http_get = function(url, headers, timeout) {
+    seen <<- headers
+    fake_response('{"error":{"code":"rate_limited","message":"Daily limit of 50 requests reached."}}',
+                  429, list(`retry-after` = "36000", `x-ratelimit-remaining` = "0"))
+  })
+  err <- expect_error(cb_net_salary("uk", 30000), class = "calcbloc_rate_limited")
+  expect_false("X-API-Key" %in% names(seen))
+  msg <- conditionMessage(err)
+  expect_true(startsWith(msg, "The free allowance of 50 requests a day without a key is used up. Add your free API key (5,000 requests a day): "))
+  expect_true(grepl("https://calcbloc.com/developers/keys?utm_source=calcbloc-r&utm_medium=app&utm_campaign=itmarkerz-oss", msg, fixed = TRUE))
+  expect_match(msg, "CALCBLOC_API_KEY", fixed = TRUE)
+  expect_match(msg, "cb_api_key()", fixed = TRUE)
+  expect_false(err$api_key_set)
+})
+
+test_that("HTTP 429 without a key on the per-minute limit says so once retries run out", {
+  local_api()
+  withr::local_options(calcbloc.max_retries = 0)
+  local_mocked_bindings(cb_http_get = function(url, headers, timeout) {
+    fake_response('{"error":{"code":"rate_limited","message":"Too many requests this minute (limit 5)."}}',
+                  429, list(`retry-after` = "20"))
+  })
+  err <- expect_error(cb_api_get("/countries"), class = "calcbloc_rate_limited")
+  expect_true(startsWith(conditionMessage(err), "The free allowance without a key (5 requests a minute, 50 a day) is used up for this minute."))
+  expect_match(conditionMessage(err), "developers/keys?utm_source=calcbloc-r", fixed = TRUE)
+})
+
+test_that("HTTP 429 with a key (from CALCBLOC_API_KEY) keeps the keyed-limit message", {
+  local_api()
+  Sys.setenv(CALCBLOC_API_KEY = "env-key")
+  seen <- NULL
+  local_mocked_bindings(cb_http_get = function(url, headers, timeout) {
+    seen <<- headers
+    fake_response('{"error":{"code":"rate_limited","message":"Daily limit of 5000 requests reached."}}',
+                  429, list(`retry-after` = "36000", `x-ratelimit-remaining` = "0"))
+  })
+  err <- expect_error(cb_api_get("/countries"), class = "calcbloc_rate_limited")
+  expect_equal(unname(seen["X-API-Key"]), "env-key")
+  expect_equal(conditionMessage(err), "CalcBloc API rate limit reached: Daily limit of 5000 requests reached. Retry after 36000 seconds.")
+  expect_true(err$api_key_set)
+})
+
 test_that("API errors become classed conditions with the API's message", {
   local_api()
   local_mocked_bindings(cb_http_get = function(url, headers, timeout) {

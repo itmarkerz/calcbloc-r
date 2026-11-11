@@ -34,8 +34,8 @@ calculators on calcbloc.com. Supported for about a dozen countries
 the API returns an \code{unsupported_country} error pointing to their tax tables.
 }
 \details{
-The API documents the calculation endpoints as needing a free key; set
-\code{CALCBLOC_API_KEY} (see \code{\link[=cb_api_key]{cb_api_key()}}).
+Works without a key for 50 requests a day; set \code{CALCBLOC_API_KEY} for a
+free key's 5,000 a day (see \code{\link[=cb_api_key]{cb_api_key()}}).
 }
 \examples{
 \dontshow{if (interactive() && curl::has_internet()) withAutoprint(\{ # examplesIf}
