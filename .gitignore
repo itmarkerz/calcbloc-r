@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rproj
+/doc/
+/Meta/
+calcbloc_*.tar.gz
+calcbloc.Rcheck/
+.Renviron
+inst/doc

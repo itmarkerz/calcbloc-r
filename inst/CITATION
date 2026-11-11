@@ -1,0 +1,14 @@
+bibentry(
+  bibtype = "Manual",
+  title = "calcbloc: Income Tax Brackets and Social Security Rates from Official Sources",
+  author = c(person("Binu", "Mathew")),
+  organization = "CalcBloc",
+  year = "2026",
+  note = paste("R package version", meta$Version, "- Data by CalcBloc (calcbloc.com/data), CC BY 4.0"),
+  url = "https://github.com/itmarkerz/calcbloc-r",
+  textVersion = paste0(
+    "Mathew B (2026). calcbloc: Income Tax Brackets and Social Security Rates from Official Sources. ",
+    "R package version ", meta$Version, ". https://github.com/itmarkerz/calcbloc-r. ",
+    "Data by CalcBloc (calcbloc.com/data), CC BY 4.0."
+  )
+)

@@ -1,0 +1,39 @@
+Package: calcbloc
+Type: Package
+Title: Income Tax Brackets and Social Security Rates from Official Sources
+Version: 0.1.0
+Authors@R: c(
+    person("Binu", "Mathew", email = "binumathew1988@gmail.com",
+           role = c("aut", "cre")),
+    person("CalcBloc", role = "cph")
+  )
+Description: Tidy data frames of income tax brackets, social security
+    contribution rates, thresholds and allowances for more than 20
+    countries, with the official source, retrieval date and verification
+    status on every row. National tables for the current tax year ship with
+    the package and work offline; regional tables (US states, Canadian
+    provinces, Spanish and Italian regions, Swiss cantons and others) and the
+    latest revisions can be fetched from the 'CalcBloc' public API
+    <https://calcbloc.com/developers>, which also returns take-home pay and
+    employer cost calculations. Includes vectorised helpers that apply a
+    progressive band schedule to incomes. The bundled data come from
+    <https://calcbloc.com/data> and are licensed CC BY 4.0.
+License: MIT + file LICENSE
+URL: https://github.com/itmarkerz/calcbloc-r, https://calcbloc.com/data
+BugReports: https://github.com/itmarkerz/calcbloc-r/issues
+Depends:
+    R (>= 3.6.0)
+Imports:
+    curl (>= 4.0),
+    jsonlite (>= 1.7.0)
+Suggests:
+    knitr,
+    rmarkdown,
+    testthat (>= 3.1.7),
+    withr (>= 2.5.0)
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.1

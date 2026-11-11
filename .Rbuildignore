@@ -1,0 +1,13 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^LICENSE\.md$
+^README\.Rmd$
+^data-raw$
+^cran-comments\.md$
+^PUBLISHING_CHECKLIST\.md$
+^\.github$
+^CRAN-SUBMISSION$
+^revdep$
+^doc$
+^Meta$
+^\.lintr$

@@ -1,0 +1,195 @@
+---
+title: "Comparing tax schedules across countries"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Comparing tax schedules across countries}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7, fig.height = 4.5, dpi = 72)
+```
+
+This vignette compares national income tax schedules with the tables that ship
+with calcbloc. Everything below runs offline: no API key and no network.
+
+Data by CalcBloc ([calcbloc.com/data](https://calcbloc.com/data)), CC BY 4.0.
+Every row carries the official source it was taken from (`source_url`), the
+date it was retrieved and its verification status.
+
+```{r}
+library(calcbloc)
+```
+
+## Find the band schedules
+
+`cb_countries()` lists what is bundled; `cb_sections()` lists the sections of
+one table. Sections of kind `"bands"` are progressive schedules: rows with
+`from`, `to` and `rate`.
+
+```{r}
+cs <- cb_countries()
+cs[, c("country", "currency", "current_year", "last_verified")]
+
+us <- cb_tax_table("us")
+cb_sections(us, kind = "bands")[, c("section_id", "rows", "basis")]
+```
+
+The `basis` column matters: it says which amount the bands apply to. US federal
+brackets apply to taxable income (after the standard or itemised deduction);
+UK bands apply to taxable income above the Personal Allowance; Australian
+rates apply to the whole of taxable income, with a 0% first band.
+
+## A side-by-side summary
+
+We pick the main schedule of eight countries: the federal schedule for the US
+and Canada (provincial tax comes on top), the resident schedule for Australia,
+the new (default) regime for India.
+
+```{r}
+schedules <- data.frame(
+  country = c("us", "uk", "canada", "australia", "india", "singapore", "austria", "italy"),
+  section = c("federal-income-tax-single", "income-tax-england", "federal-income-tax",
+              "resident-rates", "new-regime", "income-tax", "income-tax", "irpef"),
+  stringsAsFactors = FALSE
+)
+tables <- lapply(schedules$country, cb_tax_table)
+names(tables) <- schedules$country
+
+summary_row <- function(tab, section) {
+  b <- tab[tab$section_id == section, ]
+  b <- b[order(b$from), ]
+  data.frame(
+    country = attr(tab, "country"),
+    year = attr(tab, "year_label"),
+    currency = attr(tab, "currency"),
+    bands = nrow(b),
+    lowest_rate = min(b$rate),
+    top_rate = max(b$rate),
+    top_rate_from = b$from[which.max(b$rate)],
+    source = b$source_url[1],
+    stringsAsFactors = FALSE
+  )
+}
+overview <- do.call(rbind, Map(summary_row, tables, schedules$section))
+rownames(overview) <- NULL
+overview[, -8]
+```
+
+The `source` column holds the official publication for each schedule:
+
+```{r}
+cat(sprintf("%-10s %s", overview$country, overview$source), sep = "\n")
+```
+
+## Marginal and average rates
+
+`cb_tax_from_bands()` is vectorised, so a whole income grid goes in at once,
+and `cb_marginal_rate()` gives the rate of the band each income falls in. The
+incomes are in each country's own currency, so each panel has its own x axis.
+
+```{r rates, fig.height = 8}
+op <- par(mfrow = c(4, 2), mar = c(4, 4, 2, 1), cex = 0.7)
+for (i in seq_len(nrow(schedules))) {
+  tab <- tables[[i]]
+  sec <- schedules$section[i]
+  top <- max(tab$from[tab$section_id == sec], na.rm = TRUE)
+  income <- seq(0, 2 * top, length.out = 400)
+  avg <- ifelse(income > 0, cb_tax_from_bands(income, tab, sec) / income, 0)
+  marg <- cb_marginal_rate(income, tab, sec)
+  plot(income, 100 * marg, type = "s", ylim = c(0, 60), col = "grey40",
+       xlab = paste("Income,", attr(tab, "currency")), ylab = "Rate (%)",
+       main = paste(attr(tab, "country_name"), attr(tab, "year_label")))
+  lines(income, 100 * avg, lwd = 2, col = "steelblue")
+}
+par(op)
+mtext(cb_credit(), side = 1, line = -1, outer = TRUE, adj = 1, cex = 0.6)
+```
+
+Grey steps are marginal rates, blue lines average rates. The average rate
+approaches the top marginal rate only slowly: Australia's 45% top rate gives
+an average rate well below 40% even at twice the top threshold.
+
+## When does the average rate reach 20%?
+
+A single number that summarises progressivity: the income at which the band
+arithmetic alone takes 20% of the amount. `uniroot()` solves it per schedule.
+
+```{r}
+income_at_average <- function(tab, section, target) {
+  f <- function(x) cb_tax_from_bands(x, tab, section) / x - target
+  top <- max(tab$from[tab$section_id == section], na.rm = TRUE)
+  upper <- 100 * max(top, 1)
+  if (f(1) >= 0) return(0)          # the first band is already at or above the target
+  if (f(upper) < 0) return(NA_real_) # never reached
+  uniroot(f, c(1, upper), tol = 0.01)$root
+}
+overview$income_at_20pct <- round(mapply(function(tab, sec) income_at_average(tab, sec, 0.20),
+                                         tables, schedules$section))
+overview[, c("country", "currency", "top_rate", "income_at_20pct")]
+```
+
+These amounts are in local currency and before any allowance or credit that
+sits outside the bands (0 means the first band's rate is already 20% or more,
+as in the UK, where the bands start above the Personal Allowance). To compare them across countries, convert with
+exchange rates or purchasing-power parities of your choice:
+
+```{r, eval = FALSE}
+# Your own conversion factors: local currency units per US dollar.
+lcu_per_usd <- c(USD = 1, GBP = NA, CAD = NA, AUD = NA, INR = NA, SGD = NA, EUR = NA)  # fill in
+overview$income_at_20pct_usd <- overview$income_at_20pct / lcu_per_usd[overview$currency]
+```
+
+## Combining values and bands: the UK Personal Allowance taper
+
+Tables also hold single values, such as allowances and thresholds. The UK
+Personal Allowance of GBP 12,570 is withdrawn by GBP 1 for every GBP 2 of
+income above GBP 100,000, which creates a 60% marginal rate between
+GBP 100,000 and GBP 125,140. All three figures are in the table:
+
+```{r}
+uk <- cb_tax_table("uk")
+pa_rows <- uk[uk$section_id == "personal-allowance", c("label", "value", "rate", "source_url")]
+pa_rows
+
+pa <- pa_rows$value[pa_rows$label == "Personal Allowance"]
+limit <- pa_rows$value[pa_rows$label == "Income limit for the Personal Allowance"]
+taper <- pa_rows$rate[grepl("taper", pa_rows$label)]
+
+uk_income_tax <- function(gross) {
+  allowance <- pmax(0, pa - taper * pmax(0, gross - limit))
+  cb_tax_from_bands(pmax(0, gross - allowance), uk, "income-tax-england")
+}
+gross <- c(30000, 60000, 100000, 110000, 125140, 150000)
+data.frame(gross, tax = uk_income_tax(gross), average = round(uk_income_tax(gross) / gross, 3))
+```
+
+The marginal rate, by finite differences:
+
+```{r}
+g <- seq(90000, 140000, by = 10)
+marginal <- diff(uk_income_tax(g)) / diff(g)
+unique(round(marginal, 2))
+```
+
+The real HMRC rules also round the allowance and taxable income to whole
+pounds and add Scottish and Welsh rates for residents there, so treat this as
+the band arithmetic, not a tax return. For complete take-home pay figures,
+`cb_net_salary()` calls the same engine as the calculators on calcbloc.com.
+
+## Regional schedules from the API
+
+Regional tables (US states, Canadian provinces, Swiss cantons, Spanish
+autonomous communities, ...) are not bundled, to keep the package small. They
+come from the CalcBloc API. Without a key the API allows 50 requests a day
+and 5 a minute per IP address; the client spaces requests, caches responses
+for the session and waits when the server asks it to. A free key
+(<https://calcbloc.com/developers>) in `CALCBLOC_API_KEY` raises the limit.
+
+```{r, eval = FALSE}
+provinces <- cb_regions("canada")$code
+on <- cb_tax_table("canada", region = "on", source = "api")
+cb_sections(on, kind = "bands")
+cb_tax_from_bands(80000, on, cb_sections(on, kind = "bands")$section_id[1])
+```
