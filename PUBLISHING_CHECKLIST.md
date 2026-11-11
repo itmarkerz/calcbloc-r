@@ -34,9 +34,14 @@ Rscript data-raw/build-bundled-data.R ../calcbloc-data/tables
 ```sh
 Rscript -e 'devtools::document()'
 Rscript -e 'devtools::test()'
-R CMD build .
+Rscript data-raw/build-package.R   # R CMD build on a copy whose README.md says utm_medium=cran
 R CMD check --as-cran calcbloc_0.1.0.tar.gz
 ```
+
+- [ ] Build with `data-raw/build-package.R`, not plain `R CMD build .`: CRAN shows the README.md inside the
+      tarball on the package page, and the script retags its calcbloc.com and itmarkerz.co.in links from
+      `utm_medium=readme` (GitHub) to `utm_medium=cran`, then checks the tarball. The committed README.md
+      keeps `utm_medium=readme`.
 
 - [ ] 0 errors, 0 warnings. Expected NOTE: "New submission" (and, offline, the URL/time checks).
 - [ ] Optional live API tests (use about 4 of the 50 anonymous requests a day):
@@ -81,8 +86,9 @@ R CMD check --as-cran calcbloc_0.1.0.tar.gz
 ## 6. Submit
 
 - [ ] Bump nothing (first release is 0.1.0), make sure `NEWS.md` starts with `# calcbloc 0.1.0`.
-- [ ] `devtools::release()` (it asks the standard questions), or upload the tarball at
-      <https://cran.r-project.org/submit.html>.
+- [ ] Upload the tarball built by `Rscript data-raw/build-package.R` at
+      <https://cran.r-project.org/submit.html>. (`devtools::release()` builds its own tarball, whose README
+      would keep `utm_medium=readme`; use it only if that does not matter.)
 - [ ] Confirm the submission from the email CRAN sends to the maintainer.
 - [ ] If the reviewer asks for changes, fix them, note each fix under "Resubmission" in
       `cran-comments.md` and resubmit. A package that has not been accepted yet keeps version 0.1.0

@@ -254,6 +254,7 @@ rows only.
   it; `cb_credit()` returns the text, for example
   `labs(caption = cb_credit())`.
 - **Code licence:** MIT.
+- **Copyright:** © 2026 itmarkerz technologies (code and data).
 - Not tax advice: the band helpers apply the published schedule and
   nothing else (no allowances, credits, tapers or rounding rules).
 

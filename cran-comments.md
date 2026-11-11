@@ -40,7 +40,8 @@ passed.
   for the session in memory, and `Retry-After` is honoured (at most two
   retries, at most 60 seconds of waiting by default).
 * **Licences.** The R code is MIT licensed (`LICENSE` in CRAN's format). The
-  bundled tax data is published by CalcBloc under CC BY 4.0; this is stated in
+  bundled tax data is published by itmarkerz technologies (the copyright
+  holder; CalcBloc is its product name) under CC BY 4.0; this is stated in
   the Description, `inst/COPYRIGHTS` and the help pages, and print methods show
   the required credit.
 * **Files written.** None. The package does not write to the user's file space.

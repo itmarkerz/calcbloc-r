@@ -5,7 +5,7 @@ Version: 0.1.0
 Authors@R: c(
     person("Binu", "Mathew", email = "binumathew1988@gmail.com",
            role = c("aut", "cre")),
-    person("CalcBloc", role = "cph")
+    person("itmarkerz technologies", role = "cph")
   )
 Description: Tidy data frames of income tax brackets, social security
     contribution rates, thresholds and allowances for more than 20

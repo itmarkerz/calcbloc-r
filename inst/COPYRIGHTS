@@ -1,12 +1,15 @@
 calcbloc: copyright and licence notes
 
-R code (R/, tests/, vignettes/): Copyright (c) 2026 CalcBloc, MIT licence
-(see the LICENSE file).
+Copyright holder: itmarkerz technologies (https://itmarkerz.co.in).
+CalcBloc is a product of itmarkerz technologies.
 
-Tax data (inst/extdata/): compiled by CalcBloc from the official government
-publications named on every row (column source_url) and published at
-https://calcbloc.com/data under the Creative Commons Attribution 4.0
-International licence (CC BY 4.0,
+R code (R/, tests/, vignettes/): Copyright (c) 2026 itmarkerz technologies,
+MIT licence (see the LICENSE file).
+
+Tax data (inst/extdata/): Copyright (c) 2026 itmarkerz technologies. Compiled
+by CalcBloc from the official government publications named on every row
+(column source_url) and published at https://calcbloc.com/data under the
+Creative Commons Attribution 4.0 International licence (CC BY 4.0,
 https://creativecommons.org/licenses/by/4.0/).
 
 Required credit when you reuse or publish the data or results based on it:
