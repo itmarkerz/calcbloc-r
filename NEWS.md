@@ -2,8 +2,8 @@
 
 First version, for review (not yet on CRAN).
 
-* Bundled national tax tables for 24 countries from the CalcBloc open dataset
-  (data of 2026-11-11), with the official source, retrieval date and status on
+* Bundled national tax tables for 33 countries from the CalcBloc open dataset
+  (data of 2026-11-12), with the official source, retrieval date and status on
   every row. The UK has its 2026-27 and 2025-26 tables.
 * `cb_countries()`, `cb_regions()` and `cb_manifest()` describe the data.
 * `cb_tax_table()` returns a tidy data frame of a country's tables, from the

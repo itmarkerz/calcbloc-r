@@ -8,7 +8,7 @@ Authors@R: c(
     person("itmarkerz technologies", role = "cph")
   )
 Description: Tidy data frames of income tax brackets, social security
-    contribution rates, thresholds and allowances for more than 20
+    contribution rates, thresholds and allowances for more than 30
     countries, with the official source, retrieval date and verification
     status on every row. National tables for the current tax year ship with
     the package and work offline; regional tables (US states, Canadian
