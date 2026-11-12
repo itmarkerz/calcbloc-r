@@ -10,9 +10,9 @@ Nothing has been submitted. This is the list of steps for a first CRAN release, 
       `inst/COPYRIGHTS` and the Description, and `cran-comments.md` explains it to the reviewer.
       If CRAN asks for a single licence for everything, the fallback is to license the whole
       package as CC BY 4.0 (`License: CC BY 4.0`), which CRAN accepts; that needs the owner's agreement.
-- [ ] Countries: only countries that calcbloc.com serves are bundled (33 on 2026-11-12). Lithuania,
-      Malta, Cyprus and Iceland are in calcbloc-data but have no live page yet;
-      re-run `data-raw/build-bundled-data.R` once they are live.
+- [ ] Countries: only countries that calcbloc.com serves are bundled (37 on 2026-11-12,
+      every published country in calcbloc-data); re-run `data-raw/build-bundled-data.R` when
+      calcbloc-data adds a country.
 - [ ] Regional tables are not bundled (API only). Bundling all 204 of them would add about
       0.3 MB (compressed JSON); the national tables are about 0.2 MB. A small change to the data-raw
       script and `cb_tax_table()` if the owner prefers offline regional tables.
