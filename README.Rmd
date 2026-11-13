@@ -171,7 +171,7 @@ cov <- data.frame(
   `Tax years` = cs$years,
   `Regional tables (API)` = ifelse(cs$regions > 0, as.character(cs$regions), "-"),
   Rows = cs$rows,
-  `Last verified` = format(cs$last_verified),
+  `Last checked` = format(cs$last_verified),
   check.names = FALSE
 )
 knitr::kable(cov[order(cs$name), ], row.names = FALSE)
@@ -189,6 +189,8 @@ need verified rows only.
 - **Data licence:** CC BY 4.0. Credit "Data by CalcBloc (calcbloc.com/data)"
   wherever you publish the data or results based on it; `cb_credit()` returns
   the text, for example `labs(caption = cb_credit())`.
+- The canonical, most recent version of each table is its country page on
+  calcbloc.com.
 - **Code licence:** MIT.
 - **Copyright:** © 2026 itmarkerz technologies (code and data).
 - Not tax advice: the band helpers apply the published schedule and nothing

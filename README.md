@@ -239,7 +239,7 @@ to set the key. With a key, the message gives that key’s limit.
 
 Bundled national tables, from the package manifest (data of 2026-11-12):
 
-| Country | Code | Tax years | Regional tables (API) | Rows | Last verified |
+| Country | Code | Tax years | Regional tables (API) | Rows | Last checked |
 |:---|:---|:---|:---|---:|:---|
 | [Australia](https://calcbloc.com/australia/tax-tables/2026-27?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `australia` | 2026-27 | \- | 88 | 2026-11-09 |
 | [Austria](https://calcbloc.com/austria/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `austria` | 2026 | \- | 95 | 2026-11-10 |
@@ -293,6 +293,8 @@ rows only.
   (calcbloc.com/data)” wherever you publish the data or results based on
   it; `cb_credit()` returns the text, for example
   `labs(caption = cb_credit())`.
+- The canonical, most recent version of each table is its country page
+  on calcbloc.com.
 - **Code licence:** MIT.
 - **Copyright:** © 2026 itmarkerz technologies (code and data).
 - Not tax advice: the band helpers apply the published schedule and

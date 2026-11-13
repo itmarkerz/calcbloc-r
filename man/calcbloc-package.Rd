@@ -54,7 +54,7 @@ accepts before giving up on a rate-limited request (default 60).
 Useful links:
 \itemize{
   \item \url{https://github.com/itmarkerz/calcbloc-r}
-  \item \url{https://calcbloc.com/data?utm_source=calcbloc-r&utm_medium=package&utm_campaign=itmarkerz-oss}
+  \item \url{https://calcbloc.com/data}
   \item Report bugs at \url{https://github.com/itmarkerz/calcbloc-r/issues}
 }
 
