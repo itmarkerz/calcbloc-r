@@ -10,7 +10,7 @@ Nothing has been submitted. This is the list of steps for a first CRAN release, 
       `inst/COPYRIGHTS` and the Description, and `cran-comments.md` explains it to the reviewer.
       If CRAN asks for a single licence for everything, the fallback is to license the whole
       package as CC BY 4.0 (`License: CC BY 4.0`), which CRAN accepts; that needs the owner's agreement.
-- [ ] Countries: only countries that calcbloc.com serves are bundled (37 on 2026-11-12,
+- [ ] Countries: only countries that calcbloc.com serves are bundled (41 on 2026-11-13,
       every published country in calcbloc-data); re-run `data-raw/build-bundled-data.R` when
       calcbloc-data adds a country.
 - [ ] Regional tables are not bundled (API only). Bundling all 204 of them would add about

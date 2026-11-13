@@ -5,7 +5,7 @@
 
 calcbloc gives statisticians and economists tidy data frames of income
 tax brackets, social security contribution rates, thresholds and
-allowances for 37 countries, with the official source, retrieval date
+allowances for 41 countries, with the official source, retrieval date
 and verification status on every row. National tables ship with the
 package and work offline; regional tables and the latest revisions come
 from the [CalcBloc public
@@ -114,40 +114,44 @@ top_rates <- do.call(rbind, lapply(cb_countries()$country, function(cc) {
              top_rate = b$rate, from = b$from)
 }))
 top_rates[order(-top_rates$top_rate), ]
-#>        country currency                   section top_rate       from
-#> 16     austria      EUR                income-tax   0.5500 1000000.00
-#> 22    slovenia      EUR                income-tax   0.5000   82346.23
-#> 8  netherlands      EUR                      box1   0.4950   78426.00
-#> 12    portugal      EUR                income-tax   0.4800   86634.00
-#> 2           uk      GBP        income-tax-england   0.4500  125140.00
-#> 3    australia      AUD            resident-rates   0.4500  190000.00
-#> 9       france      EUR                income-tax   0.4500  181917.00
-#> 26      greece      EUR                income-tax   0.4400   60000.00
-#> 11       italy      EUR                     irpef   0.4300   50000.00
-#> 18  luxembourg      EUR                income-tax   0.4200  234870.00
-#> 4  new-zealand      NZD                income-tax   0.3900  180000.00
-#> 21     finland      EUR                 state-tax   0.3750   52100.00
-#> 1           us      USD federal-income-tax-single   0.3700  640600.00
-#> 25    slovakia      EUR                income-tax   0.3500   75010.32
-#> 32       malta      EUR         income-tax-single   0.3500   60000.00
-#> 33      cyprus      EUR                income-tax   0.3500   72000.00
-#> 5       canada      CAD        federal-income-tax   0.3300  258482.00
-#> 27      latvia      EUR                income-tax   0.3300  105300.00
-#> 14     denmark      DKK                 state-tax   0.3201 2592700.00
-#> 17      poland      PLN                income-tax   0.3200  120000.00
-#> 31   lithuania      EUR                income-tax   0.3200  138729.00
-#> 6        india      INR                new-regime   0.3000 2400000.00
-#> 28     croatia      EUR                income-tax   0.3000   60000.00
-#> 7        spain      EUR                state-irpf   0.2450  300000.00
-#> 10   singapore      SGD                income-tax   0.2400 1000000.00
-#> 19     czechia      CZK                income-tax   0.2300 1762812.00
-#> 29     estonia      EUR                income-tax   0.2200       0.00
-#> 15      sweden      SEK                 state-tax   0.2000  643000.00
-#> 20      norway      NOK                trinnskatt   0.1780 1467200.00
-#> 24     hungary      HUF                income-tax   0.1500       0.00
-#> 13 switzerland      CHF               federal-tax   0.1320  185100.00
-#> 23     romania      RON                income-tax   0.1000       0.00
-#> 30    bulgaria      EUR                income-tax   0.1000       0.00
+#>          country currency                   section top_rate       from
+#> 16       austria      EUR                income-tax   0.5500 1000000.00
+#> 22      slovenia      EUR                income-tax   0.5000   82346.23
+#> 8    netherlands      EUR                      box1   0.4950   78426.00
+#> 12      portugal      EUR                income-tax   0.4800   86634.00
+#> 2             uk      GBP        income-tax-england   0.4500  125140.00
+#> 3      australia      AUD            resident-rates   0.4500  190000.00
+#> 9         france      EUR                income-tax   0.4500  181917.00
+#> 26        greece      EUR                income-tax   0.4400   60000.00
+#> 11         italy      EUR                     irpef   0.4300   50000.00
+#> 18    luxembourg      EUR                income-tax   0.4200  234870.00
+#> 37        turkey      TRY          income-tax-wages   0.4000 5300000.00
+#> 4    new-zealand      NZD                income-tax   0.3900  180000.00
+#> 21       finland      EUR                 state-tax   0.3750   52100.00
+#> 1             us      USD federal-income-tax-single   0.3700  640600.00
+#> 25      slovakia      EUR                income-tax   0.3500   75010.32
+#> 32         malta      EUR         income-tax-single   0.3500   60000.00
+#> 33        cyprus      EUR                income-tax   0.3500   72000.00
+#> 5         canada      CAD        federal-income-tax   0.3300  258482.00
+#> 27        latvia      EUR                income-tax   0.3300  105300.00
+#> 14       denmark      DKK                 state-tax   0.3201 2592700.00
+#> 17        poland      PLN                income-tax   0.3200  120000.00
+#> 31     lithuania      EUR                income-tax   0.3200  138729.00
+#> 6          india      INR                new-regime   0.3000 2400000.00
+#> 28       croatia      EUR                income-tax   0.3000   60000.00
+#> 7          spain      EUR                state-irpf   0.2450  300000.00
+#> 10     singapore      SGD                income-tax   0.2400 1000000.00
+#> 19       czechia      CZK                income-tax   0.2300 1762812.00
+#> 29       estonia      EUR                income-tax   0.2200       0.00
+#> 15        sweden      SEK                 state-tax   0.2000  643000.00
+#> 34       ukraine      UAH                income-tax   0.1800       0.00
+#> 20        norway      NOK                trinnskatt   0.1780 1467200.00
+#> 24       hungary      HUF                income-tax   0.1500       0.00
+#> 13   switzerland      CHF               federal-tax   0.1320  185100.00
+#> 23       romania      RON                income-tax   0.1000       0.00
+#> 30      bulgaria      EUR                income-tax   0.1000       0.00
+#> 36        serbia      RSD                income-tax   0.1000   34221.00
+#> 35 liechtenstein      CHF                income-tax   0.0800  211400.00
 ```
 
 These are national (central government) schedules only. Where states,
@@ -163,7 +167,7 @@ values; see `cb_sections(cb_tax_table("germany"))`.
 uk <- cb_tax_table("uk")
 uk
 #> <CalcBloc tax table> United Kingdom 2026/27 (GBP)
-#> 78 rows in 17 sections; table status: verified; source: bundled with calcbloc (data of 2026-11-12)
+#> 78 rows in 17 sections; table status: verified; source: bundled with calcbloc (data of 2026-11-13)
 #>          section_id                              label   from     to   rate  value  unit   status
 #>  income-tax-england                         Basic rate      0  37700 0.2000     NA  rate verified
 #>  income-tax-england                        Higher rate  37700 125140 0.4000     NA  rate verified
@@ -237,7 +241,7 @@ to set the key. With a key, the message gives that key’s limit.
 
 ## Coverage
 
-Bundled national tables, from the package manifest (data of 2026-11-12):
+Bundled national tables, from the package manifest (data of 2026-11-13):
 
 | Country | Code | Tax years | Regional tables (API) | Rows | Last checked |
 |:---|:---|:---|:---|---:|:---|
@@ -260,6 +264,7 @@ Bundled national tables, from the package manifest (data of 2026-11-12):
 | [Ireland](https://calcbloc.com/ireland/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `ireland` | 2026 | \- | 50 | 2026-11-06 |
 | [Italy](https://calcbloc.com/italy/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `italy` | 2026 | 21 | 101 | 2026-11-09 |
 | [Latvia](https://calcbloc.com/latvia/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `latvia` | 2026 | \- | 77 | 2026-11-11 |
+| [Liechtenstein](https://calcbloc.com/liechtenstein/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `liechtenstein` | 2026 | \- | 252 | 2026-11-13 |
 | [Lithuania](https://calcbloc.com/lithuania/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `lithuania` | 2026 | \- | 80 | 2026-11-11 |
 | [Luxembourg](https://calcbloc.com/luxembourg/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `luxembourg` | 2026 | \- | 126 | 2026-11-11 |
 | [Malta](https://calcbloc.com/malta/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `malta` | 2026 | \- | 105 | 2026-11-11 |
@@ -269,12 +274,15 @@ Bundled national tables, from the package manifest (data of 2026-11-12):
 | [Poland](https://calcbloc.com/poland/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `poland` | 2026 | \- | 93 | 2026-11-10 |
 | [Portugal](https://calcbloc.com/portugal/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `portugal` | 2026 | 2 | 76 | 2026-11-09 |
 | [Romania](https://calcbloc.com/romania/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `romania` | 2026 | \- | 127 | 2026-11-11 |
+| [Serbia](https://calcbloc.com/serbia/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `serbia` | 2026 | \- | 188 | 2026-11-13 |
 | [Singapore](https://calcbloc.com/singapore/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `singapore` | 2026 | \- | 94 | 2026-11-09 |
 | [Slovakia](https://calcbloc.com/slovakia/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `slovakia` | 2026 | \- | 89 | 2026-11-11 |
 | [Slovenia](https://calcbloc.com/slovenia/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `slovenia` | 2026 | \- | 112 | 2026-11-11 |
 | [Spain](https://calcbloc.com/spain/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `spain` | 2026 | 21 | 90 | 2026-11-09 |
 | [Sweden](https://calcbloc.com/sweden/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `sweden` | 2026 | 21 | 140 | 2026-11-10 |
 | [Switzerland](https://calcbloc.com/switzerland/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `switzerland` | 2026 | 26 | 148 | 2026-11-09 |
+| [Türkiye](https://calcbloc.com/turkey/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `turkey` | 2026 | \- | 212 | 2026-11-13 |
+| [Ukraine](https://calcbloc.com/ukraine/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `ukraine` | 2026 | \- | 164 | 2026-11-12 |
 | [United Arab Emirates](https://calcbloc.com/uae/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `uae` | 2026 | \- | 56 | 2026-11-09 |
 | [United Kingdom](https://calcbloc.com/uk/tax-tables/2026-27?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `uk` | 2026-27, 2025-26 | 2 | 78 | 2026-11-09 |
 | [United States](https://calcbloc.com/us/tax-tables/2026?utm_source=calcbloc-r&utm_medium=readme&utm_campaign=itmarkerz-oss) | `us` | 2026 | 51 | 70 | 2026-11-09 |
